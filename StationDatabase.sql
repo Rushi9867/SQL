@@ -1,4 +1,14 @@
-Show Databases;
+--Show Databases; FOR MYSQL
+
+SELECT name, database_id, create_date  
+FROM sys.databases;  
+GO
+
+SELECT table_name, table_schema, table_type
+FROM information_schema.tables
+ORDER BY table_name ASC;
+
+
 CREATE DATABASE STATION;
 USE STATION;
 
@@ -533,7 +543,7 @@ SELECT COUNT(CITY) - COUNT(DISTINCT CITY) AS DIFFERNCE FROM STATION;
 
 (SELECT CITY, length(CITY) as city_len from STATION order by city_len asc, CITY asc limit 1)
 UNION
-SELECT CITY, length(city) as city_len from STATION order by city_len desc, CITY asc limit 1;
+(SELECT CITY, length(CITY) as city_len from STATION order by city_len desc, CITY asc limit 1);
 
 -- Q11. Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from STATION. Your result
 -- cannot contain duplicates.

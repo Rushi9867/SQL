@@ -1,4 +1,9 @@
-Show Databases;
+--Show Databases; FOR MYSQL
+
+SELECT name, database_id, create_date  
+FROM sys.databases;  
+GO
+
 CREATE DATABASE CITY;
 USE CITY;
 
@@ -9,6 +14,7 @@ COUNTRYCODE VARCHAR(3),
 DISTRICT VARCHAR(30),
 POPULATION BIGINT
 );
+
 insert into city values ('6','Rotterdam','NLD','Zuid-Holland',0);
 insert into city values ('19','Zaanstad','NLD','Noord-Holland','135621');
 insert into city values ('214','Porto Alegre','BRA','Rio Grande do Sul','1314032');
