@@ -111,7 +111,7 @@ SELECT *FROM Sports;
 DELETE FROM Sports
 WHERE SportsID = 102;
 
-INSERT INTO Sports(SportsName,EnrolledStudentID) VALUES ('VAolly Ball',4);
+INSERT INTO Sports(SportsName,EnrolledStudentID) VALUES ('Volly Ball',4);
 SELECT *FROM Sports;
  
 -- TRUNCATE

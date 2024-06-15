@@ -4,7 +4,7 @@ USE superstore;
 
 SELECT *FROM superstore;
 
-ALTER TABLE superstore RENAME COLUMN `ï»¿Order ID` TO 'Order ID' VARCHAR(50);
+-- ALTER TABLE superstore RENAME COLUMN `ï»¿Order ID` TO 'Order ID' VARCHAR(50);
 
 -- >,=,AND,OR,NOT
 SELECT *FROM superstore WHERE Quantity = 14;
@@ -85,5 +85,17 @@ SELECT `Product ID`,SUBSTRING(`Product ID`,8,9) AS ID FROM superstore;
 
 -- LTRIM,RTRIM
 SELECT LTRIM(RTRIM('               Hello              ')) AS Example;
+
+-- COALESCE
+SELECT `ï»¿Order ID`,COALESCE(`Customer Name`,Segment,Category,`Sub-Category`) 
+AS DETAILS FROM superstore;
+
+-- GROUP_CONCAT
+SELECT GROUP_CONCAT(`Customer Name`,'| ') AS Full_Name FROM superstore;
+
+SELECT State,COUNT(*) AS Order_Count FROM Superstore WHERE Sales >= 500.0
+GROUP BY State HAVING COUNT(*) >=2 ORDER BY Order_Count DESC LIMIT 2;
+
+SELECT DISTINCT Quantity FROM Superstore;
 
 SELECT *FROM superstore;
