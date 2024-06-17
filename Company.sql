@@ -28,7 +28,7 @@ CREATE TABLE Branch (
 ALTER TABLE Employee ADD FOREIGN KEY(branch_id) 
 REFERENCES branch(branch_id) ON DELETE SET NULL; 
  
-ALTER TABLE EMPLOYEE ADD FOREIGN KEY(super_id) 
+ALTER TABLE Employee ADD FOREIGN KEY(super_id) 
 REFERENCES Employee(empl_id) ON DELETE SET NULL; 
  
 CREATE TABLE `Client`( 
@@ -321,6 +321,59 @@ WITH cte_avgsalary AS
 (SELECT branch_id ,AVG(salary) AS 'Avg.Salary' FROM Employee GROUP BY branch_id)
 SELECT empl_id,first_name,last_name,e.branch_id,salary FROM Employee e
 INNER JOIN cte_avgsalary c ON e.branch_id = c.branch_id AND e.salary > c.`Avg.Salary`;
+
+--- Windows Function
+--- Aggregate Window Functions
+SELECT empl_id,first_name,last_name,branch_id,salary, 
+AVG(salary) OVER(Partition By branch_id) AS 'Avg.Salary', 
+COUNT(*) OVER(Partition By branch_id) AS 'No.of Employees',
+MAX(salary) OVER(Partition By branch_id) AS 'Max.Salary',
+MIN(salary) OVER(Partition By branch_id) AS 'Min.Salary'
+FROM Employee;
+
+SELECT empl_id,first_name,last_name,branch_id,salary, 
+SUM(salary) OVER (ORDER BY branch_id RANGE BETWEEN UNBOUNDED PRECEDING 
+AND CURRENT ROW) AS 'Running Total',
+SUM(salary) OVER (ORDER BY branch_id ROWS BETWEEN UNBOUNDED PRECEDING 
+AND UNBOUNDED FOLLOWING) AS 'Total'
+FROM Employee;
+
+--- Ranking Window Functions
+SELECT empl_id,first_name,last_name,branch_id,salary, 
+ROW_NUMBER() OVER(Partition By branch_id ORDER BY salary DESC) AS 'Row Number', 
+RANK() OVER(Partition By branch_id ORDER BY salary DESC) AS 'Rank',
+DENSE_RANK() OVER (Partition By branch_id ORDER BY salary DESC) AS 'Dense_Rank'
+FROM Employee;
+
+SELECT first_name,SUM(salary) AS Salary,
+NTILE(10) OVER(ORDER BY SUM(salary) DESC) AS Segregation
+FROM Employee GROUP BY first_name;
+
+SELECT first_name,Salary,Segregation FROM(
+    SELECT first_name,SUM(salary) AS Salary,
+    NTILE(10) OVER(ORDER BY SUM(salary) DESC)AS Segregation
+    FROM Employee GROUP BY first_name) AS DerivedTable
+WHERE Segregation =1 OR Segregation = 9;
+
+--- VALUE WINDOW FUNCTIONS
+SELECT empl_id,first_name,last_name,branch_id,salary, 
+    LAG(salary,1,-1) OVER(ORDER BY salary) AS 'Prev Value', 
+    LEAD(salary,1,-1) OVER(ORDER BY salary) AS 'Next Value',
+FROM Employee;
+
+SELECT empl_id,first_name,last_name,branch_id,salary, 
+    LAG(salary,1,-1) OVER(ORDER BY salary) AS 'Prev Value', 
+    LEAD(salary,1,-1) OVER(ORDER BY salary) AS 'Next Value',
+FROM Employee;
+
+SELECT empl_id,first_name,last_name,branch_id,salary, 
+    FIRST_VALUE(salary) OVER(ORDER BY salary) AS 'First Value',
+    FIRST_VALUE(salary) OVER(PARTITION BY branch_id ORDER BY salary RANGE BETWEEN UNBOUNDED PRECEDING 
+    AND CURRENT ROW) AS 'First Value 1',
+    LAST_VALUE(salary) OVER(ORDER BY salary) AS 'Last Value'
+    LAST_VALUE(salary) OVER(PARTITION BY branch_id ORDER BY salary ROWS BETWEEN UNBOUNDED PRECEDING 
+    AND UNBOUNDED FOLLOWING) AS 'Last Value 1'
+FROM Employee;
 
 --- ON DELETE 
 DELETE FROM Employee WHERE empl_id = 102; 
