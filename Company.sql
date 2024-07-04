@@ -26,7 +26,7 @@ CREATE TABLE Branch (
 );
 
 ALTER TABLE Employee ADD FOREIGN KEY(branch_id) 
-REFERENCES branch(branch_id) ON DELETE SET NULL; 
+REFERENCES Branch(branch_id) ON DELETE SET NULL; 
  
 ALTER TABLE Employee ADD FOREIGN KEY(super_id) 
 REFERENCES Employee(empl_id) ON DELETE SET NULL; 
@@ -35,7 +35,7 @@ CREATE TABLE `Client`(
     client_id INT PRIMARY KEY, 
     client_name VARCHAR (40), 
     branch_id INT, 
-    FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE SET NULL 
+    FOREIGN KEY(branch_id) REFERENCES Branch(branch_id) ON DELETE SET NULL 
 );
 
 CREATE TABLE Works_with( 
