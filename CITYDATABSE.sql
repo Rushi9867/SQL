@@ -1,4 +1,4 @@
---Show Databases; FOR MYSQL
+Show Databases; 
 
 SELECT name, database_id, create_date  
 FROM sys.databases;  
@@ -7,7 +7,7 @@ GO
 CREATE DATABASE CITY;
 USE CITY;
 
-CREATE TABLE CITY(
+CREATE TABLE city(
 ID BIGINT,
 CNAME VARCHAR(17),
 COUNTRYCODE VARCHAR(3),
@@ -28,7 +28,7 @@ insert into city values ('762','Bahir','Dar','ETH Amhara','96140');
 insert into city values ('796','Baguio','PHL','CAR','252386');
 insert into city values ('896','Malungon','PHL','Southern Mindanao','93232');
 insert into city values ('904','Banjul','GMB','Banjul','42326');
-insert into city values ('924','Villa','Nueva','GTM','101295');
+insert into city values ('924','Villa','GTM','Nueva','101295');
 insert into city values ('990','Waru','IDN','East Java','124300');
 insert into city values ('1155','Latur','IND','Maharashtra','197408');
 insert into city values ('1222','Tenali','IND','Andhra Pradesh','143726');
@@ -100,12 +100,12 @@ insert into city values ('4058','Boulder','USA','Colorado','91238');
 insert into city values ('4061','Fall River','USA','Massachusetts','90555');
 
 select * from city;
--- Q1. Query all columns for all American cities in the CITY table with populations larger than 100000.
+-- Q1. Query all columns for all American cities in the city table with populations larger than 1,00,000.
 -- The CountryCode for America is USA
 
 select * from city where countrycode ='USA' and population > 100000; 
 
--- Q2. Query the NAME field for all American cities in the CITY table with populations larger than 120000.
+-- Q2. Query the NAME field for all American cities in the CITY table with populations larger than 1,20,000.
 -- The CountryCode for America is USA.
 
 select CNAME from city where countrycode ='USA' and population > 120000; 
