@@ -261,7 +261,7 @@ FROM Employee e1 INNER JOIN Employee e2 ON e1.empl_id = e2.super_id;
 --- Nested Queries 
 --- find names of all `employee's` who have sold over 30,000 to a single client 
 SELECT Employee.first_name, Employee.last_name FROM Employee WHERE Employee.empl_id IN( 
-    SELECT Works_with.empl_id FROM works_with WHERE Works_with.total_sales > 30000); 
+    SELECT Works_with.empl_id FROM Works_with WHERE Works_with.total_sales > 30000); 
 
 --- Find all `client's` who are handled by the branch that Micheal scott manages  
 --- Assumes you know `Michael's` ID 
@@ -325,7 +325,7 @@ SELECT empl_id,first_name,last_name,e.branch_id,salary FROM Employee e
 INNER JOIN cte_avgsalary c ON e.branch_id = c.branch_id AND e.salary > c.`Avg.Salary`;
 
 --- Windows Function
---- Aggregate Window Functions
+--- Aggregate Windows Functions
 SELECT empl_id,first_name,last_name,branch_id,salary, 
 AVG(salary) OVER(Partition By branch_id) AS 'Avg.Salary', 
 COUNT(*) OVER(Partition By branch_id) AS 'No.of Employees',
@@ -355,24 +355,19 @@ SELECT first_name,Salary,Segregation FROM(
     SELECT first_name,SUM(salary) AS Salary,
     NTILE(10) OVER(ORDER BY SUM(salary) DESC)AS Segregation
     FROM Employee GROUP BY first_name) AS DerivedTable
-WHERE Segregation =1 OR Segregation = 9;
+WHERE Segregation = 1 OR Segregation = 9;
 
 --- VALUE WINDOW FUNCTIONS
 SELECT empl_id,first_name,last_name,branch_id,salary, 
     LAG(salary,1,-1) OVER(ORDER BY salary) AS 'Prev Value', 
-    LEAD(salary,1,-1) OVER(ORDER BY salary) AS 'Next Value',
-FROM Employee;
-
-SELECT empl_id,first_name,last_name,branch_id,salary, 
-    LAG(salary,1,-1) OVER(ORDER BY salary) AS 'Prev Value', 
-    LEAD(salary,1,-1) OVER(ORDER BY salary) AS 'Next Value',
+    LEAD(salary,1,-1) OVER(ORDER BY salary) AS 'Next Value'
 FROM Employee;
 
 SELECT empl_id,first_name,last_name,branch_id,salary, 
     FIRST_VALUE(salary) OVER(ORDER BY salary) AS 'First Value',
     FIRST_VALUE(salary) OVER(PARTITION BY branch_id ORDER BY salary RANGE BETWEEN UNBOUNDED PRECEDING 
     AND CURRENT ROW) AS 'First Value 1',
-    LAST_VALUE(salary) OVER(ORDER BY salary) AS 'Last Value'
+    LAST_VALUE(salary) OVER(ORDER BY salary) AS 'Last Value',
     LAST_VALUE(salary) OVER(PARTITION BY branch_id ORDER BY salary ROWS BETWEEN UNBOUNDED PRECEDING 
     AND UNBOUNDED FOLLOWING) AS 'Last Value 1'
 FROM Employee;
