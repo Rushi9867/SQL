@@ -1,12 +1,14 @@
+
+CREATE DATABASE IF NOT EXISTS Company;
 USE Company;
 
-DROP TABLE Employee; 
-DROP TABLE Branch; 
-DROP TABLE `Client`; 
-DROP TABLE Works_with; 
-DROP TABLE Branch_supplier; 
+DROP TABLE IF EXISTS Employee; 
+DROP TABLE IF EXISTS Branch; 
+DROP TABLE IF EXISTS `Client`; 
+DROP TABLE IF EXISTS Works_with; 
+DROP TABLE IF EXISTS Branch_supplier; 
 
-CREATE TABLE Employee( 
+CREATE TABLE IF NOT EXISTS Employee( 
     empl_id  INT PRIMARY KEY, 
     first_name VARCHAR(40), 
     last_name VARCHAR(40), 
@@ -17,7 +19,7 @@ CREATE TABLE Employee(
     branch_id INT  
 ); 
  
-CREATE TABLE Branch ( 
+CREATE TABLE IF NOT EXISTS Branch ( 
     branch_id INT PRIMARY KEY, 
     branch_name VARCHAR(40), 
     mgr_id INT, 
@@ -26,19 +28,19 @@ CREATE TABLE Branch (
 );
 
 ALTER TABLE Employee ADD FOREIGN KEY(branch_id) 
-REFERENCES branch(branch_id) ON DELETE SET NULL; 
+REFERENCES Branch(branch_id) ON DELETE SET NULL; 
  
 ALTER TABLE Employee ADD FOREIGN KEY(super_id) 
 REFERENCES Employee(empl_id) ON DELETE SET NULL; 
  
-CREATE TABLE `Client`( 
+CREATE TABLE IF NOT EXISTS `Client`( 
     client_id INT PRIMARY KEY, 
     client_name VARCHAR (40), 
     branch_id INT, 
-    FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE SET NULL 
+    FOREIGN KEY(branch_id) REFERENCES Branch(branch_id) ON DELETE SET NULL 
 );
 
-CREATE TABLE Works_with( 
+CREATE TABLE IF NOT EXISTS Works_with( 
     empl_id INT, 
     client_id INT, 
     total_sales INT, 
@@ -47,7 +49,7 @@ CREATE TABLE Works_with(
     FOREIGN KEY(client_id) REFERENCES Client(client_id) ON DELETE CASCADE 
 ); 
  
-CREATE TABLE Branch_supplier( 
+CREATE TABLE IF NOT EXISTS Branch_supplier( 
     branch_id INT, 
     supplier_name VARCHAR(40), 
     supply_type VARCHAR(40), 
@@ -117,8 +119,8 @@ select * from Branch_supplier;
 select * from Employee ORDER BY salary DESC; --- ASC--- 
 
 --- find all employees ordered by sex then firstname 
-select * from Employee ORDER BY first_name;  --- sex 
-
+select * from Employee ORDER BY sex; 
+select * from Employee ORDER BY first_name ASC;
 --- find the first 5 employee  
 select * from Employee LIMIT 5;
 
@@ -129,7 +131,7 @@ select first_name , last_name FROM Employee;
 SELECT first_name AS firstname, last_name AS surname FROM Employee; 
 
 --- Find out all the different genders 
-SELECT DISTINCT sex FROM employee; 
+SELECT DISTINCT sex FROM Employee; 
 
 --- Find all male employees  
 SELECT * FROM Employee WHERE sex = 'M'; 
@@ -153,7 +155,7 @@ SELECT * FROM Employee WHERE birth_day BETWEEN '1970-01-01' AND '1975-01-01';
 SELECT * FROM Employee WHERE first_name IN ('Jim','Micheal','Johnny','David'); 
 
 --- Find the no.of Employees  
-select COUNT(super_id) FROM employee; 
+select COUNT(super_id) FROM Employee; 
 
 --- Find the no.of females born after 1970 
 SELECT COUNT(empl_id) FROM Employee WHERE sex = 'F' AND birth_day > '1971-01-01'; 
@@ -162,10 +164,10 @@ SELECT COUNT(empl_id) FROM Employee WHERE sex = 'F' AND birth_day > '1971-01-01'
 SELECT AVG(salary) FROM Employee WHERE sex = 'M'; 
 
 --- Find the SUM of all employees salary 
-SELECT SUM(salary) FROM employee; 
+SELECT SUM(salary) FROM Employee; 
 
 --- find out how many males and females there are 
-SELECT COUNT(sex) , sex FROM employee GROUP BY sex;
+SELECT COUNT(sex) , sex FROM Employee GROUP BY sex;
  
 --- Find out totalsales of each salesman 
 SELECT SUM(total_sales), empl_id FROM Works_with GROUP BY empl_id; 
@@ -208,14 +210,14 @@ SELECT DISTINCT empl_id,first_name FROM Employee
 WHERE empl_id IN (SELECT mgr_id FROM Branch); 
 
 SELECT DISTINCT empl_id,first_name FROM Employee 
-WHERE empl_id IN (SELECT empl_id FROM works_with);
+WHERE empl_id IN (SELECT empl_id FROM Works_with);
 
 SELECT DISTINCT branch_id,branch_name FROM Branch 
-WHERE branch_id IN (SELECT branch_id FROM branch_supplier); 
+WHERE branch_id IN (SELECT branch_id FROM Branch_supplier); 
 
 --- EXCEPT
 SELECT empl_id FROM Employee
-EXCEPT SELECT empl_id FROM works_with;
+EXCEPT SELECT empl_id FROM Works_with;
 
 SELECT empl_id,first_name FROM Employee
 EXCEPT SELECT mgr_id,branch_name FROM Branch;
