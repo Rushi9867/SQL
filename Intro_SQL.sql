@@ -1,85 +1,100 @@
 show databases;
-create database learn_sql;
+
+CREATE DATABASE  IF NOT EXISTS learn_sql;
 use learn_sql;
 show tables;
 
-create table student(
-Stu_id INT,
-Stu_name varchar(50),
-Age varchar(8),
-Gender varchar(8),
-Location varchar(50));
+DROP TABLE IF EXISTS student;
 
-INSERT into student values(1,'Rushi',23,'M','INDIA');
-INSERT into student values(2,null,24,'M','INDIA');
-select *from student;
+CREATE Table student(
+Stu_id INT,
+Stu_name VARCHAR(50),
+Age VARCHAR(8),
+Location VARCHAR(50));
+
+INSERT INTO student VALUES(1,'Rushi',24,'INDIA');
+INSERT INTO student VALUES(2,NULL,24,'INDIA');
+SELECT *FROM student;
 drop table student;
 
 ---- Using NOT NULL----
-create table student(
-Stu_id INT ,
-Stu_name varchar(50) not null,
-Age varchar(8),
-Gender varchar(8),
-Location varchar(50));
 
-INSERT into student values(1,'Rushi',23,'M','INDIA');
-INSERT into student values(2,'Ravi',24,'M','INDIA');
+CREATE TABLE Student(
+Stu_id INT,
+Stu_Name VARCHAR(50) NOT NULL,
+Age VARCHAR(8),
+Gender VARCHAR(8),
+Location VARCHAR(50));
+
+INSERT INTO Student VALUES(1,'Rushi',24,'M','INDIA');
+INSERT INTO Student VALUES(2,'Ravi',24,'M','INDIA');
+INSERT INTO Student VALUES(3,NULL,24,'M','INDIA'); ---- Showing Error
+SELECT *FROM Student;
 select *from student INTO OUTFILE '/temp/myoutput.txt';
 
+DROP TABLE IF EXISTS emp;
+DROP TABLE IF EXISTS dep;
 ---- PRIMARY KEY -----
-create table dep(
-depid int not null,
-depname varchar(25),
-depadd varchar(100),
-PRIMARY KEY (depid));
 
-select *from dep ;
+CREATE TABLE DEP(
+Depid INT NOT NULL,
+Depname VARCHAR(25),
+Depadd VARCHAR(100),
+PRIMARY KEY(Depid));
+
+SELECT *FROM DEP;
+
+DROP TABLE IF EXISTS emp;
 
 ----- FOREIGN KEY----
-create table emp(
-empid int,
-empname varchar(50),
-depadd varchar(255),
-depid int,
-PRIMARY KEY (empid),
-FOREIGN KEY (depid) references dep(depid));
-select *from emp;
+
+CREATE TABLE EMP(
+Empid INT,
+Empname VARCHAR(50),
+Depadd VARCHAR(255),
+Depid INT,
+PRIMARY KEY (Empid),
+FOREIGN KEY (Depid) REFERENCES Dep(Depid));
+
+SELECT *FROM Emp;
 
 ----------             ------------
 	  ---- DDL Queries ----
 
-show databases;
-create database IF NOT EXISTS learn_sql;
-use learn_sql;
-show tables;
----- CREATE-----
-create table employees(
-emp_name varchar(50),
-emp_id INT NOT NULL,
-manager_name varchar(50),
-Division INT,
-PRIMARY KEY (emp_id));
-select *from employees;
+SHOW DATABASES;
+CREATE DATABASE IF NOT EXISTS leran_sql;
+USE learn_sql;
+SHOW TABLES;
+DROP TABLE IF EXISTS Employees;
 
-create table emp_new(
-firstname varchar(10),
-lastname varchar(10),
-title varchar(80),
-age INT,
-salary INT);
-select *from emp_new;
+---- CREATE-----
+CREATE TABLE Employees(
+Emp_name VARCHAR(50),
+Emp_id INT NOT NULL,
+Manager_name VARCHAR(50),
+Division INT,
+PRIMARY KEY (Emp_id));
+
+DROP TABLE IF EXISTS Emp_New;
+
+CREATE TABLE Emp_New(
+Firstname VARCHAR(10),
+Lastname VARCHAR(10),
+Title VARCHAR(80),
+Age INT,
+Salary INt);
+
+SELECT *FROM Emp_New;
 
 ---- ALTER -----
-ALTER table
-emp_new 
-ADD gender varchar(1);
+ALTER TABLE 
+Emp_New
+ADD Gender VARCHAR(5);
 
-ALTER table
-emp_new DROP column random;
+ALTER TABLE Emp_New DROP COLUMN RANDOM;
 
 ---- DROP ----
-DROP table emp_new ;
+DROP TABLE Emp_New;
 
 create database random_new;
 DROP database random_new;
