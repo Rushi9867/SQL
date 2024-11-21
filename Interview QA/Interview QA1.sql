@@ -28,10 +28,18 @@ SELECT GREATEST(`Source`,Destination),LEAST(`Source`,Destination),MAX(Distance)
 FROM Travel 
 GROUP BY GREATEST(`Source`,Destination),LEAST(`Source`,Destination);
 
--- Answer Method 2
+-- Answer Method 2 Using CTE
 
 WITH cte AS(
 	SELECT *, ROW_NUMBER() OVER() AS Sno FROM Travel)
 SELECT t1.* FROM cte AS t1 JOIN cte AS t2 
 ON t1.`Source`= t2.Destination AND t1.Sno < t2.Sno;
+
+-- Answer Method 3 Using SubQuery
+
+SELECT *FROM Travel t1
+WHERE NOT EXISTS(SELECT *FROM Travel t2 
+				WHERE t1.`Source` = t2.Destination
+                AND t1.Destination = t2.`Source`
+                AND t1.Destination > t2.Destination)
 
