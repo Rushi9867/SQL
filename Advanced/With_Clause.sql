@@ -1,3 +1,5 @@
+/* Youtube Link: https://youtu.be/WHBH0yz35_8?si=YhsAd7JXjTKVgRGU */
+
 Show Databases;
 
 Create Database Adv_Sql;
