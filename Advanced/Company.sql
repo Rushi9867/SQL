@@ -63,7 +63,7 @@ INSERT INTO Branch VALUES(1,'Corporate', 100, '2006-02-09');
 UPDATE Employee SET branch_id = 1 WHERE empl_id = 100; 
  
 INSERT INTO Employee VALUES(101,'Jan','Levinson','1961-05-11','F',110000,100,1); 
- --- Scranton 
+ -- Scranton 
 INSERT INTO Employee VALUES(102,'Micheal', 'Scott', '1964-03-15','M',75000,100,NULL); 
 INSERT INTO Branch VALUES(2,'Scranton', 102, '1992-04-06'); 
 UPDATE Employee SET branch_id = 2 WHERE empl_id = 102; 
@@ -72,7 +72,7 @@ UPDATE Branch SET branch_name = 'Scranton' WHERE branch_id = 2;
 INSERT INTO Employee VALUES(103,'Angela','Martin','1971-06-25','F',63000,102,2); 
 INSERT INTO Employee VALUES(104,'Kelly','Kapoor','1980-02-05','F',55000,102,2); 
 INSERT INTO Employee VALUES(105,'Stanley','Hudson','1958-02-19','M',69000,102,2); 
- --- Stamford 
+ -- Stamford 
 INSERT INTO Employee VALUES(106,'Josh','Porter','1969-09-05','M',78000,100,NULL); 
 INSERT INTO Branch VALUES(3,'Stamford',106,'1998-02-13'); 
 UPDATE Employee SET branch_id = 3 WHERE empl_id = 106; 
@@ -82,7 +82,7 @@ UPDATE Branch SET branch_name = 'Stamford' WHERE branch_id = 3;
 INSERT INTO Employee VALUES(107,'Andy','Bernard','1973-07-22','M',65000,106,3); 
 INSERT INTO Employee VALUES(108,'Jim','Halpert','1978-10-01','M',71000,106,3); 
 
---- BRANCH SUPPLIER 
+-- BRANCH SUPPLIER 
 INSERT INTO Branch_supplier VALUES(2,'Hammer Mill','Paper'); 
 INSERT INTO Branch_supplier VALUES(2,'Uni-ball','Writing Utensils'); 
 INSERT INTO Branch_supplier VALUES(3,'Patriot Paper','Paper'); 
@@ -90,7 +90,7 @@ INSERT INTO Branch_supplier VALUES(2,'J.T. Forms & Labels','Custom Forms');
 INSERT INTO Branch_supplier VALUES(3,'Uni-ball','Writing Utensils'); 
 INSERT INTO Branch_supplier VALUES(3,'Hammer Mill','Paper'); 
 INSERT INTO Branch_supplier VALUES(3,'Stamford Lables','Custom Forms'); 
- --- Client 
+ -- Client 
 INSERT INTO Client VALUES(400,'Dunmore Highschool',2); 
 INSERT INTO Client VALUES(401,'Lackawana Country',2); 
 INSERT INTO Client VALUES(402,'FedEx',3); 
@@ -98,7 +98,7 @@ INSERT INTO Client VALUES(403,'John Daly Law,LLC',3);
 INSERT INTO Client VALUES(404,'Scranton Whitepages',2); 
 INSERT INTO Client VALUES(405,'Times Newspaper',3); 
 INSERT INTO Client VALUES(406,'FedEx',2); 
- --- Works With 
+ -- Works With 
 INSERT INTO Works_with VALUES(105,400,55000); 
 INSERT INTO Works_with VALUES(102,401,267000); 
 INSERT INTO Works_with VALUES(108,402,22500); 
@@ -118,94 +118,94 @@ select * from Branch_supplier;
 --- find all employees ordered by salary 
 select * from Employee ORDER BY salary DESC; --- ASC--- 
 
---- find all employees ordered by sex then firstname 
+-- find all employees ordered by sex then firstname 
 select * from Employee ORDER BY sex; 
 select * from Employee ORDER BY first_name ASC;
---- find the first 5 employee  
+-- find the first 5 employee  
 select * from Employee LIMIT 5;
 
---- Find the firstname and lastanme of all employee  
+-- Find the firstname and lastanme of all employee  
 select first_name , last_name FROM Employee; 
 
---- Set the firstname and surname names of all Employee 
+-- Set the firstname and surname names of all Employee 
 SELECT first_name AS firstname, last_name AS surname FROM Employee; 
 
---- Find out all the different genders 
+-- Find out all the different genders 
 SELECT DISTINCT sex FROM Employee; 
 
---- Find all male employees  
+-- Find all male employees  
 SELECT * FROM Employee WHERE sex = 'M'; 
 
---- Find all employees at branch 2 
+-- Find all employees at branch 2 
 SELECT * FROM Employee WHERE branch_id = 2;  
 
---- Find all `employee's` ids and names who were born after 1969 
+-- Find all `employee's` ids and names who were born after 1969 
 SELECT empl_id , first_name,last_name FROM Employee WHERE birth_day >= 1970-01-01; 
 
---- Find all female employees at branch 2 
+-- Find all female employees at branch 2 
 SELECT * FROM Employee WHERE branch_id = 2 AND sex = 'F'; 
 
---- Find all Employees who are female & born after 1969 or who make over 80000 
+-- Find all Employees who are female & born after 1969 or who make over 80000 
 SELECT * FROM  Employee WHERE(birth_day >= '1970-01-01' AND sex = 'F') OR salary > 80000;
 
---- Find all employee born between 1970 and 1975 
+-- Find all employee born between 1970 and 1975 
 SELECT * FROM Employee WHERE birth_day BETWEEN '1970-01-01' AND '1975-01-01'; 
 
---- Find all employees named Jim, Michael, Johnny or David 
+-- Find all employees named Jim, Michael, Johnny or David 
 SELECT * FROM Employee WHERE first_name IN ('Jim','Micheal','Johnny','David'); 
 
---- Find the no.of Employees  
+-- Find the no.of Employees  
 select COUNT(super_id) FROM Employee; 
 
---- Find the no.of females born after 1970 
+-- Find the no.of females born after 1970 
 SELECT COUNT(empl_id) FROM Employee WHERE sex = 'F' AND birth_day > '1971-01-01'; 
 
---- Find the Average of all employees salary 
+-- Find the Average of all employees salary 
 SELECT AVG(salary) FROM Employee WHERE sex = 'M'; 
 
---- Find the SUM of all employees salary 
+-- Find the SUM of all employees salary 
 SELECT SUM(salary) FROM Employee; 
 
---- find out how many males and females there are 
+-- find out how many males and females there are 
 SELECT COUNT(sex) , sex FROM Employee GROUP BY sex;
  
---- Find out totalsales of each salesman 
+-- Find out totalsales of each salesman 
 SELECT SUM(total_sales), empl_id FROM Works_with GROUP BY empl_id; 
 
---- Find out totalsales of each salesman 
+-- Find out totalsales of each salesman 
 SELECT SUM(total_sales), client_id FROM Works_with GROUP BY client_id; 
 
---- % = any # characters, _= one character--- 
---- Find  any `client's` whom are an LLC 
+-- % = any # characters, _= one character--- 
+-- Find  any `client's` whom are an LLC 
 SELECT * FROM `Client` WHERE client_name LIKE '%LLC'; 
 
---- Find any Branch Supplier who are in the labels business 
+-- Find any Branch Supplier who are in the labels business 
 SELECT * FROM Branch_supplier WHERE supplier_name LIKE '% Labels%'; 
 
---- Find any employee born in October or February 
+-- Find any employee born in October or February 
 SELECT * FROM Employee WHERE birth_day LIKE '____-10%'; 
 
---- Find any `client's` who are in `school's`  
+-- Find any `client's` who are in `school's`  
 SELECT * FROM Client WHERE client_name LIKE '%school%';
  
 ---- Union ---- 
---- Find a list of Employee , Client and Branch Names set column name is CompanyNames 
+-- Find a list of Employee , Client and Branch Names set column name is CompanyNames 
 SELECT first_name AS Company_Names FROM Employee UNION SELECT branch_name FROM Branch  
 UNION SELECT Client_name FROM `Client`; 
 
---- Find a list of all clients and branch supplier names 
+-- Find a list of all clients and branch supplier names 
 SELECT client_name , `Client`.branch_id FROM `Client` UNION  
 SELECT supplier_name , Branch_supplier.branch_id FROM Branch_supplier; 
 
---- Find a list of all money spent or earned hy the company 
+-- Find a list of all money spent or earned hy the company 
 SELECT salary FROM Employee UNION SELECT total_sales FROM Works_with; 
 
---- UNION ALL
+-- UNION ALL
 SELECT empl_id,first_name AS Company_Names FROM Employee 
 UNION ALL SELECT mgr_id,branch_name FROM Branch  
 UNION ALL SELECT client_id,Client_name FROM `Client`; 
 
---- INTERSECT
+-- INTERSECT
 SELECT DISTINCT empl_id,first_name FROM Employee 
 WHERE empl_id IN (SELECT mgr_id FROM Branch); 
 
@@ -215,7 +215,7 @@ WHERE empl_id IN (SELECT empl_id FROM Works_with);
 SELECT DISTINCT branch_id,branch_name FROM Branch 
 WHERE branch_id IN (SELECT branch_id FROM Branch_supplier); 
 
---- EXCEPT
+-- EXCEPT
 SELECT empl_id FROM Employee
 EXCEPT SELECT empl_id FROM Works_with;
 
@@ -224,23 +224,23 @@ EXCEPT SELECT mgr_id,branch_name FROM Branch;
 
 INSERT INTO Branch VALUES(4,'Buffalo',NULL,NULL); 
 
---- INNER JOIN ---
+-- INNER JOIN ---
 SELECT empl_id,first_name,last_name FROM Employee e
 INNER JOIN Branch b ON e.branch_id = b.branch_id;
 
---- JOIN --- 
---- find all branches and the names of their mangaers  
+-- JOIN --- 
+-- find all branches and the names of their mangaers  
 SELECT e.empl_id , e.first_name , b.branch_name FROM Employee e 
 JOIN Branch b ON e.empl_id = b.mgr_id; 
 
---- LEFT JOIN  
+-- LEFT JOIN  
 SELECT e.empl_id , e.first_name , b.branch_name FROM Employee e
 LEFT JOIN Branch b ON e.empl_id = b.mgr_id;
 
 SELECT empl_id,first_name,last_name FROM Employee e
 LEFT JOIN Branch b ON e.branch_id = b.branch_id;
 
---- RIGHT JOIN  
+-- RIGHT JOIN  
 SELECT e.empl_id , e.first_name , b.branch_name FROM Employee e  
 RIGHT JOIN Branch b ON e.empl_id = b.mgr_id;
 
@@ -248,27 +248,27 @@ SELECT empl_id,first_name,last_name FROM Employee e
 RIGHT JOIN Branch b ON e.branch_id = b.branch_id;
 
 SELECT *FROM Branch;
---- CROSS JOIN as FULL JOIN ---
+-- CROSS JOIN as FULL JOIN ---
 SELECT empl_id,first_name,last_name FROM Employee e
 CROSS JOIN Branch b ON e.branch_id = b.branch_id;
 
 SELECT *FROM Employee;
 
---- SELF JOIN ---
+-- SELF JOIN ---
 SELECT e2.first_name AS 'EMPL_NAME',e1.first_name AS 'MANAGER_NAME'
 FROM Employee e1 INNER JOIN Employee e2 ON e1.empl_id = e2.super_id;
 
---- Nested Queries 
---- find names of all `employee's` who have sold over 30,000 to a single client 
+-- Nested Queries 
+-- find names of all `employee's` who have sold over 30,000 to a single client 
 SELECT Employee.first_name, Employee.last_name FROM Employee WHERE Employee.empl_id IN( 
     SELECT Works_with.empl_id FROM Works_with WHERE Works_with.total_sales > 30000); 
 
---- Find all `client's` who are handled by the branch that Micheal scott manages  
+-- Find all `client's` who are handled by the branch that Micheal scott manages  
 --- Assumes you know `Michael's` ID 
 SELECT `Client`.client_name FROM `Client` WHERE `Client`.branch_id = ( 
     SELECT Branch.branch_id FROM Branch WHERE Branch.mgr_id = 102 LIMIT 1); 
 
---- CASE
+-- CASE
 SELECT branch_id,branch_name,
 	CASE branch_id
 		WHEN 1 THEN "No.1 Branch"
@@ -300,12 +300,12 @@ FROM Works_with;
 
 select * from Works_with;
 
---- SUBQUERIES
---- Show the Employee Name who is having the highest salary in branch 3
+-- SUBQUERIES
+-- Show the Employee Name who is having the highest salary in branch 3
 SELECT empl_id,first_name,last_name,salary FROM Employee
 WHERE branch_id = 3 AND salary = (SELECT MAX(salary) FROM Employee WHERE branch_id = 3);
 
---- Show the Employee Name who is having the second highest salary in branch 3
+-- Show the Employee Name who is having the second highest salary in branch 3
 SELECT empl_id,first_name,last_name,salary FROM Employee
 WHERE branch_id = 3 AND salary = (SELECT MAX(salary) FROM Employee
 WHERE branch_id = 3 AND salary <> (SELECT MAX(salary) FROM Employee WHERE branch_id = 3));
@@ -318,14 +318,14 @@ SELECT branch_id,AVG(salary) FROM Employee GROUP BY branch_id;
 SELECT empl_id,first_name,last_name,salary,branch_id FROM Employee e
 WHERE salary > (SELECT AVG(salary) FROM Employee WHERE branch_id = e.branch_id);
 
---- WITH CTE
+-- WITH CTE
 WITH cte_avgsalary AS
 (SELECT branch_id ,AVG(salary) AS 'Avg.Salary' FROM Employee GROUP BY branch_id)
 SELECT empl_id,first_name,last_name,e.branch_id,salary FROM Employee e
 INNER JOIN cte_avgsalary c ON e.branch_id = c.branch_id AND e.salary > c.`Avg.Salary`;
 
---- Windows Function
---- Aggregate Windows Functions
+-- Windows Function
+-- Aggregate Windows Functions
 SELECT empl_id,first_name,last_name,branch_id,salary, 
 AVG(salary) OVER(Partition By branch_id) AS 'Avg.Salary', 
 COUNT(*) OVER(Partition By branch_id) AS 'No.of Employees',
@@ -340,7 +340,7 @@ SUM(salary) OVER (ORDER BY branch_id ROWS BETWEEN UNBOUNDED PRECEDING
 AND UNBOUNDED FOLLOWING) AS 'Total'
 FROM Employee;
 
---- Ranking Window Functions
+-- Ranking Window Functions
 SELECT empl_id,first_name,last_name,branch_id,salary, 
 ROW_NUMBER() OVER(Partition By branch_id ORDER BY salary DESC) AS 'Row Number', 
 RANK() OVER(Partition By branch_id ORDER BY salary DESC) AS 'Rank',
@@ -357,7 +357,7 @@ SELECT first_name,Salary,Segregation FROM(
     FROM Employee GROUP BY first_name) AS DerivedTable
 WHERE Segregation = 1 OR Segregation = 9;
 
---- VALUE WINDOW FUNCTIONS
+-- VALUE WINDOW FUNCTIONS
 SELECT empl_id,first_name,last_name,branch_id,salary, 
     LAG(salary,1,-1) OVER(ORDER BY salary) AS 'Prev Value', 
     LEAD(salary,1,-1) OVER(ORDER BY salary) AS 'Next Value'
@@ -372,7 +372,7 @@ SELECT empl_id,first_name,last_name,branch_id,salary,
     AND UNBOUNDED FOLLOWING) AS 'Last Value 1'
 FROM Employee;
 
---- ON DELETE 
+-- ON DELETE 
 DELETE FROM Employee WHERE empl_id = 102; 
 SELECT * FROM Employee; 
 SELECT * FROM Branch; 

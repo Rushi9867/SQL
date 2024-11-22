@@ -1,34 +1,34 @@
---Show Databases; FOR MYSQL
+-- Show Databases; FOR MYSQL
 
 SELECT name, database_id, create_date  
 FROM sys.databases;  
-GO
+
 
 CREATE DATABASE iNeuron;
 USE iNeuron;
 
 SELECT table_name, table_schema, table_type FROM information_schema.tables ORDER BY table_name ASC;
 
---SHOW TABLES; MYSQL
+-- SHOW TABLES; MYSQL
 
 create table Courses(Course_id char(5), Course_name Varchar(25), Duration int, Faculty Varchar(30));
 
 select * from Courses;
 
---DESCRIBE Courses; MYSQL
+-- DESCRIBE Courses; MYSQL
 
 insert into courses values(1257,'Data_Analytics',9,'Vikrant');
 insert into courses values(1258,'Data_Science',11,'Saurabh');
 insert into courses values(1259,'Machine_Learning',12,'Saurabh');
 insert into courses (Course_id,Course_name,Faculty) values(1260,'Artificial_Intelligence','Saurabh');
 
---Alter table Courses Add COLUMN Experience int; MYSQL
+-- Alter table Courses Add COLUMN Experience int; MYSQL
 
 Alter table Courses Add Experience int;
 
 Alter table Courses drop column Experience;
 
---Alter table Courses modify column Course_id char(5) not null; MYSQL
+-- Alter table Courses modify column Course_id char(5) not null; MYSQL
 
 Alter table Courses ALTER column Course_id char(5) not null;
 
@@ -44,7 +44,7 @@ DROP TABLE Courses;
 
 USE master ;  
 
---DROP DATABASE iNeuron; 
+-- DROP DATABASE iNeuron; 
 
 USE iNeuron;
 select * from Courses;
